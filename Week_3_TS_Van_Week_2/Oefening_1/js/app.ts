@@ -15,3 +15,5 @@ const newSize: string[] = splittedSentence.map((char) => {
   }
 });
 console.log(newSize.join(""));
+
+console.log("Ur mom gay");
