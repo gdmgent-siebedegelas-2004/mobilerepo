@@ -25,25 +25,24 @@ const books = {
     alreadyRead: true,
   },
 };
-
 // Outcome
-console.log(`
-=============================================================================
-|                               READING LIST                                |
-=============================================================================
-`);
-
+console.log(
+  "\n=============================================================================\n|                               READING LIST                                |\n=============================================================================\n"
+);
 // Itteratie
-for (const index in books) {
-  const book = books[index];
+for (var index in books) {
+  var book = books[index];
   if (book.alreadyRead) {
-    console.log(`You already read "${book.title}" by ${book.author}`);
+    console.log(
+      'You already read "'.concat(book.title, '" by ').concat(book.author)
+    );
   } else {
-    console.log(`You still need to read "${book.title}" by ${book.author}`);
+    console.log(
+      'You still need to read "'.concat(book.title, '" by ').concat(book.author)
+    );
   }
 }
-
 //
-console.log(`
-=============================================================================
-`);
+console.log(
+  "\n=============================================================================\n"
+);
