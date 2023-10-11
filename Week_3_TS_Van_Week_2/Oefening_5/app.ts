@@ -4,17 +4,17 @@
 // de property waar op moet gefilterd worden
 // de waarde van voorgaande property
 // Deze functie geeft een nieuwe array terug.
-interface Person {
+interface People {
   name: string;
   property: string;
 }
-const filterByProperty = (
-  arr: Person[],
+const filterByProperty = <T extends Object>(
+  arr: T[],
   property: string,
-  value: string
-): Person[] => arr.filter((item) => item[property] === value);
+  value: string | number | boolean
+): T[] => arr.filter((item) => item[property] === value);
 
-const people: Person[] = [
+const people: People[] = [
   { name: "Siebe", property: "Apple" },
   { name: "Jan", property: "Nokia" },
   { name: "Baptist", property: "Andriod" },
