@@ -1,65 +1,70 @@
 import express, { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 import fs from "fs";
-import { Student } from "./types";
+import { Card } from "./types";
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const readStudents = (): Student[] => {
-  return JSON.parse(fs.readFileSync("data/students.json", "utf-8"));
+const readCreditCards = (): Card[] => {
+  return JSON.parse(fs.readFileSync("data/cards.json", "utf-8"));
 };
 
-const writeStudents = (students: Student[]) => {
-  fs.writeFileSync("data/students.json", JSON.stringify(students));
+const writeCards = (cards: Card[]) => {
+  fs.writeFileSync("data/cards.json", JSON.stringify(cards));
 };
 
-app.get("/students", (req: Request, res: Response) => {
-  const students: Student[] = readStudents();
-  res.json(students);
+app.get("/cards", (req: Request, res: Response) => {
+  const cards: Card[] = readCreditCards();
+  res.json(cards);
 });
 
-app.get("/students/:id", (req: Request, res: Response) => {
-  const students: Student[] = readStudents();
+app.get("/cards/:id", (req: Request, res: Response) => {
+  const cards: Card[] = readCreditCards();
   const id = req.params.id;
-  const student = students.find((s) => s.id === id);
-  if (student) {
-    res.json(student);
+  const card = cards.find((card) => card.id === id);
+  if (card) {
+    res.json(card);
   } else {
-    res.status(404).json({ error: "Student not found" });
+    res.status(404).json({ error: "Credit card not found" });
   }
 });
 
-app.post("/students", (req: Request, res: Response) => {
-  const student: Student = {
-    image: "https://arteveldehogeschool.instructure.com/images/messages/avatar-50.png",
+app.post("/cards", (req: Request, res: Response) => {
+  const card: Card = {
+    image:
+      "https://arteveldehogeschool.instructure.com/images/messages/avatar-50.png",
     ...req.body,
   };
 
-  const students = [...readStudents(), student];
+  const cards = [...readCreditCards(), card];
   // save to JSON
-  writeStudents(students);
+  writeCards(cards);
 
-  // return added student
-  res.json(student);
+  // return added cards
+  res.json(card);
 });
 
 // PATCH
-app.patch("/students/:id", async (req: Request, res: Response) => {
+app.patch("/cards/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const student: Student | undefined = readStudents().find((student) => student.id === id);
+  const card: Card | undefined = readCreditCards().find(
+    (card) => card.id === id
+  );
 
-  if (student) {
-    const updatedStudent = { ...student, ...req.body };
+  if (card) {
+    const updatedCard = { ...card, ...req.body };
     // update database
-    const students = readStudents().map((student) => (student.id === id ? updatedStudent : student));
-    writeStudents(students);
-    // return updated student
-    res.json(updatedStudent);
+    const cards = readCreditCards().map((card) =>
+      card.id === id ? updatedCard : card
+    );
+    writeCards(cards);
+    // return updated credit card
+    res.json(updatedCard);
   } else {
-    res.status(404).json({ error: "Student not found" });
+    res.status(404).json({ error: "Credit card not found" });
   }
 });
 
