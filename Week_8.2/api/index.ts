@@ -1,73 +1,88 @@
-import express, { Request, Response } from "express";
-import * as bodyParser from "body-parser";
-import fs from "fs";
-import { Card } from "./types";
+import "dotenv/config";
+import mongoose from "mongoose";
+import express from "express";
+mongoose.connect(
+  "mongodb+srv://siebedegelas:<password>@week08cluster.jblmsjq.mongodb.net/?retryWrites=true&w=majority"
+);
 
 const app = express();
+// import express, { Request, Response } from "express";
+// import * as bodyParser from "body-parser";
+// import fs from "fs";
+// import { Card } from "./types";
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// const { MongoClient } = require("mongodb");
 
-const readCreditCards = (): Card[] => {
-  return JSON.parse(fs.readFileSync("data/cards.json", "utf-8"));
-};
+// const client = new MongoClient(
+//   "mongodb+srv://siebedegelas:<password>@week08cluster.jblmsjq.mongodb.net/"
+// );
 
-const writeCards = (cards: Card[]) => {
-  fs.writeFileSync("data/cards.json", JSON.stringify(cards));
-};
+// client.connect();
 
-app.get("/cards", (req: Request, res: Response) => {
-  const cards: Card[] = readCreditCards();
-  res.json(cards);
-});
+// const app = express();
 
-app.get("/cards/:id", (req: Request, res: Response) => {
-  const cards: Card[] = readCreditCards();
-  const id = req.params.id;
-  const card = cards.find((card) => card.id === id);
-  if (card) {
-    res.json(card);
-  } else {
-    res.status(404).json({ error: "Credit card not found" });
-  }
-});
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/cards", (req: Request, res: Response) => {
-  const card: Card = {
-    image:
-      "https://arteveldehogeschool.instructure.com/images/messages/avatar-50.png",
-    ...req.body,
-  };
+// const readCreditCards = (): Card[] => {
+//   return JSON.parse(fs.readFileSync("data/cards.json", "utf-8"));
+// };
 
-  const cards = [...readCreditCards(), card];
-  // save to JSON
-  writeCards(cards);
+// const writeCards = (cards: Card[]) => {
+//   fs.writeFileSync("data/cards.json", JSON.stringify(cards));
+// };
 
-  // return added cards
-  res.json(card);
-});
+// app.get("/cards", (req: Request, res: Response) => {
+//   const cards: Card[] = readCreditCards();
+//   res.json(cards);
+// });
 
-// PATCH
-app.patch("/cards/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const card: Card | undefined = readCreditCards().find(
-    (card) => card.id === id
-  );
+// app.get("/cards/:id", (req: Request, res: Response) => {
+//   const cards: Card[] = readCreditCards();
+//   const id = req.params.id;
+//   const card = cards.find((card) => card.id === id);
+//   if (card) {
+//     res.json(card);
+//   } else {
+//     res.status(404).json({ error: "Credit card not found" });
+//   }
+// });
 
-  if (card) {
-    const updatedCard = { ...card, ...req.body };
-    // update database
-    const cards = readCreditCards().map((card) =>
-      card.id === id ? updatedCard : card
-    );
-    writeCards(cards);
-    // return updated credit card
-    res.json(updatedCard);
-  } else {
-    res.status(404).json({ error: "Credit card not found" });
-  }
-});
+// app.post("/cards", (req: Request, res: Response) => {
+//   const card: Card = {
+//     credit_card_type: "vbucks",
+//     ...req.body,
+//   };
 
-app.listen(3002, () => {
-  console.log("Server is running on port 3002");
-});
+//   const cards = [...readCreditCards(), card];
+//   // save to JSON
+//   writeCards(cards);
+
+//   // return added cards
+//   res.json(card);
+// });
+
+// // PATCH
+// app.patch("/cards/:id", async (req: Request, res: Response) => {
+//   const id = req.params.id;
+//   const card: Card | undefined = readCreditCards().find(
+//     (card) => card.id === id
+//   );
+
+//   if (card) {
+//     const updatedCard = { ...card, ...req.body };
+//     // update database
+//     const cards = readCreditCards().map((card) =>
+//       card.id === id ? updatedCard : card
+//     );
+//     writeCards(cards);
+//     // return updated credit card
+//     res.json(updatedCard);
+//   } else {
+//     res.status(404).json({ error: "Credit card not found" });
+//   }
+// });
+
+// app.listen(3002, () => {
+//   console.log("Server is running on port 3002");
+// });
