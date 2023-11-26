@@ -1,8 +1,8 @@
 import { Express } from "express";
-import { getCards } from "../modules/Card.controller";
+import cardRoutes from "../Card/Card.routes";
 
 const registerRoutes = (app: Express) => {
-  app.get("/cards", getCards);
+  app.use("/", cardRoutes);
 };
 
 export { registerRoutes };

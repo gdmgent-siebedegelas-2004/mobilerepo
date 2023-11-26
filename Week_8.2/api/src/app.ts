@@ -1,27 +1,12 @@
 import "dotenv/config";
-import mongoose, { Expression } from "mongoose";
 import express, { Request, Response, Express } from "express";
 import fs from "fs";
-import { Card } from "./types";
+import { Card } from "../types";
 import { registerRoutes } from "./routes";
 import { registerMiddleware } from "./middleware";
-const app: Express = express();
-const port: number = parseInt(process.env.PORT ?? "3002");
 
-// connectie maken met de database
-// in mongoDB zet je je ip connectie aan
-if (process.env.MONGO_CONNECTION) {
-  mongoose
-    .connect(process.env.MONGO_CONNECTION)
-    .then(() => {
-      console.log("Connected to database");
-    })
-    .catch((error) => {
-      console.log("Error connecting to database: ", error);
-    });
-} else {
-  throw new Error("No connection string");
-}
+const app: Express = express();
+
 // register middleware
 registerMiddleware(app);
 
@@ -87,7 +72,4 @@ app.patch("/cards/:id", async (req: Request, res: Response) => {
   }
 });
 
-// setup server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+export default app;

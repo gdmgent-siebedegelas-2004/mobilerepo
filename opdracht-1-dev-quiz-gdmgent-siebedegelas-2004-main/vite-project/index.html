@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/quiz.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz - Opdracht 1</title>
+  </head>
+
+  <body>
+    <div id="welcome" class="welcome">
+      <h1>Welcome to the Quiz!</h1>
+    </div>
+
+    <main>
+      <section id="settings" class="settings-box hidden">
+        <div class="settings-container">
+          <h1>Choose your settings!</h1>
+          <h2>SELECT DIFFICULTY:</h2>
+          <label for="difficulty"></label>
+          <select id="difficulty" name="difficulty" class="select-dropdown">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
+          <section id="categories" class="categories">
+            <div class="category-container">
+              <h2>CHOOSE A CATEGORY:</h2>
+              <label for="category"
+                >Choose a category:
+                <select name="category" id="category">
+                  <option value="Linux">Linux</option>
+                  <option value="DevOps">DevOps</option>
+                  <option value="Code">Code</option>
+                  <option value="CMS">CMS</option>
+                  <option value="Docker">Docker</option>
+                  <option value="SQL">SQL</option>
+                  <option value="">any category</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <h2>NUMBER OF QUESTIONS:</h2>
+          <input
+            type="number"
+            id="numQuestions"
+            min="1"
+            max="20"
+            value="5"
+            class="questions-input"
+          />
+
+          <button id="btn-startQuiz">Start Quiz</button>
+        </div>
+      </section>
+
+      <!-- Quiz -->
+      <section id="quiz" class="hidden">
+        <div class="quiz-container">
+          <main class="quiz-main-grid">
+            <div class="quiz-box"></div>
+
+            <section class="question-list">
+              <h2 id="quiz-question" class="quiz-heading"></h2>
+              <div id="quiz-list"></div>
+            </section>
+          </main>
+        </div>
+      </section>
+
+      <section id="result"></section>
+
+      <!-- Exit button -->
+      <div class="exit-button-container">
+        <button id="exitButton">Exit</button>
+      </div>
+    </main>
+    <div id="app"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
